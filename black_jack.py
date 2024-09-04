@@ -1,12 +1,17 @@
 #Add Split Option
-#Error Handling (Typos)
-#User Scoring Issue
 #Add Betting System
-
 
 import random
 from black_jack_art import logo
 
+chips = 500
+
+def start_game():
+    print(logo)
+    bet_amount = int(input("How many chips would you like to bet?: "))
+    chips -= bet_amount
+    print(f"You bet {bet_amount} chips.  You have {chips} chips left")
+    deal_cards()
 
 def deal_card():
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
@@ -42,8 +47,7 @@ def compare(u_score, c_score):
         return "You lose"
 
 
-def play_game():
-    print(logo)
+def deal_cards():
     user_cards = []
     computer_cards = []
     computer_score = -1
@@ -57,35 +61,41 @@ def play_game():
     while not is_game_over:
         user_score = calculate_score(user_cards)
         computer_score = calculate_score(computer_cards)
-        print(f"Your cards: {user_cards}, current score: {user_score}")
-        print(f"Computer's first card: {computer_cards[0]}")
+        if user_score > 21:
+            print((f"Your cards: {user_cards}, You bust"))
+        else:
+            print(f"Your cards: {user_cards}, current score: {user_score}")
+            print(f"Computer's first card: {computer_cards[0]}")
 
         if user_score == 0 or computer_score == 0 or user_score > 21:
             is_game_over = True
         else:
-            user_should_deal = input("Type 'hit' to get another card, type 'stay' to stay, or type 'double' to double down: ")
+            user_should_deal = input("Type 'hit' to get another card, type 'stay' to stay, or type 'double' to double down: ").lower()
             if user_should_deal == "hit":
                 user_cards.append(deal_card())
             elif user_should_deal == "double":
                 user_cards.append(deal_card())
+                #global chips -= bet_amount
+                is_game_over = True
+            elif user_should_deal == "stay":
                 is_game_over = True
             else:
-                is_game_over = True
+                print("Not a option, try again")
 
     while computer_score != 0 and computer_score < 17:
         computer_cards.append(deal_card())
         computer_score = calculate_score(computer_cards)
     if user_score > 21:
-        print(f"Your final hand: {user_cards}, final score: Bust")
+        print(f"Your final hand: {user_cards}, You busted")
     else:
          print(f"Your final hand: {user_cards}, final score: {user_score}")
     print(f"Computer's final hand: {computer_cards}, final score: {computer_score}")
     print(compare(user_score, computer_score))
 
 
-while input("Do you want to play a game of Blackjack? Type 'yes' or 'no': ") == "yes":
+while input(f"Do you want to play a game of Blackjack? Your chips total is {chips}. Type 'yes' or 'no': ") == "yes":
     print("\n" * 20)
-    play_game()
+    start_game()
 
 
 
