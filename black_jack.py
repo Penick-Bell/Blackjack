@@ -82,7 +82,7 @@ def deal_cards():
                 user_cards.append(deal_card())
             elif user_should_deal == "double":
                 user_cards.append(deal_card())
-                #global chips -= bet_amount
+                chips -= bet_amount
                 is_game_over = True
             elif user_should_deal == "stay":
                 is_game_over = True
