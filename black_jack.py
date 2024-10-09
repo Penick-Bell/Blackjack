@@ -66,6 +66,7 @@ def deal_cards():
         computer_cards.append(deal_card())
 
     while not is_game_over:
+        global chips
         user_score = calculate_score(user_cards)
         computer_score = calculate_score(computer_cards)
         if user_score > 21:
@@ -81,9 +82,13 @@ def deal_cards():
             if user_should_deal == "hit":
                 user_cards.append(deal_card())
             elif user_should_deal == "double":
-                user_cards.append(deal_card())
-                chips -= bet_amount
-                is_game_over = True
+                if chips >= bet_amount:
+                    chips -= bet_amount
+                    bet_amount == bet_amount * 2
+                    user_cards.append(deal_card())
+                    is_game_over = True
+                else:
+                    print("You don't have enough chips to double")
             elif user_should_deal == "stay":
                 is_game_over = True
             else:
