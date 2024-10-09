@@ -1,13 +1,16 @@
 #Add Split Option
-#Add Betting System
+#fix double option
 
 import random
 from black_jack_art import logo
 
 chips = 500
+bet_amount = 0
 
 def start_game():
     print(logo)
+    global chips
+    global bet_amount
     bet_amount = int(input("How many chips would you like to bet?: "))
     chips -= bet_amount
     print(f"You bet {bet_amount} chips.  You have {chips} chips left")
@@ -29,23 +32,27 @@ def calculate_score(cards):
 
     return sum(cards)
 
-
 def compare(u_score, c_score):
+    global chips
+    global bet_amount
     if u_score == c_score:
+        chips += bet_amount
         return "Draw "
     elif c_score == 0:
         return "Lose, opponent has Blackjack"
     elif u_score == 0:
         return "You win with a Blackjack"
+        win()
     elif u_score > 21:
         return "You went over. You lose"
     elif c_score > 21:
+        chips += (bet_amount * 2)
         return "Opponent went over. You win"
     elif u_score > c_score:
+        chips += (bet_amount * 2)
         return "You win"
     else:
         return "You lose"
-
 
 def deal_cards():
     user_cards = []
