@@ -84,7 +84,7 @@ def deal_cards():
             elif user_should_deal == "double":
                 if chips >= bet_amount:
                     chips -= bet_amount
-                    bet_amount == bet_amount * 2
+                    bet_amount = bet_amount * 2
                     user_cards.append(deal_card())
                     is_game_over = True
                 else:
